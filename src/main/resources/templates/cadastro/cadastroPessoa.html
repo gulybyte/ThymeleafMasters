@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Cadastro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="shortcut icon" type="image-x/png" href="https://www.thymeleaf.org/doc/images/thymeleaf.png">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link id="materialize" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<style type="text/css">
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ 
+html, body{
+    height: 100%;
+    background-attachment: fixed;
+    /*background-image: url("https://www.showmetech.com.br/wp-content/uploads//2017/01/outrun_wallpaper__10_-2017-01-25-0516.jpg");*/
+    background-color: #0D1117;
+    background-size: 100% 100%; 
+    background-repeat: no-repeat;
+}
+
+/*estilizando a scrollbar*/
+body::-webkit-scrollbar-track{background: rgb(86, 84, 84)}
+body::-webkit-scrollbar{width: 6px;background: #ef0f0f}
+body::-webkit-scrollbar-thumb{background-color: rgb(0, 255, 195)}
+
+#divBusca{
+  background-color:#2F4F4F;
+  border:solid 1px;
+  border-radius:15px;
+  width:300px;
+  margin-top: 2%;
+}
+
+#nomepesquisa{
+  float:left;
+  background-color:transparent;
+  padding-left:5px;
+  font-style:italic;
+  font-size:18px;
+  border:none;
+  height:32px;
+  width:260px;
+}
+
+.btnBusca{
+	background-color:#2F4F4F;
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+	border-color: #2F4F4F;
+}
+
+/*difinindo cor da escrita em si nos input*/
+.col> input{
+	color: #3FEEEE !important;
+} 
+</style>
+</head>
+<body sec:authorize="hasRole('ROLE_ADMIN')"><!-- CARREGA O BODY APENAS PRO ADMIN -->
+
+	<!-- logout aqui -->
+	<a style="
+		float: right;
+		color: orange;
+		font-size: 40px;
+		" href="/logout">Deslogar</a>
+
+	<h1 style="color: #fff;">Cadastro Pessoa</h1>
+	
+	<div class="row">
+	
+		<!-- 
+		 - aqui em caso de erro mostra mensagem
+		 -->
+		<br>
+			<div th:each = "m : ${msg}">
+				<span style="font-size: 60px; color: red" th:text = "${m}"></span>
+			</div>
+		<br>
+	
+		<a href="https://www.invertexto.com/gerador-de-cep" target="_blank" style="color: #150C8F; text-decoration: underline; font-size: 25px;">
+			CLIQUE AQUI PARA GERAR UM CEP</a>
+		<!-- 
+		 - seguinda para o formulario de cadastro
+		 -->
+		<form action="/admin/salvarPessoa" method="post" id="FormSalvarPessoa" th:object="${pessoaobj}" enctype="multipart/form-data">
+			<div class="row" style="color: #fff;">
+				<div class="input-fiel col s12">
+					<label style="font-size: 20px; color: white;" for="file" class="active">Arquivo não obrigatorio</label>
+					<input type="file" id="file" name="file" class="validate">
+				</div>
+			</div>
+			<div class="row" style="color: #fff;">
+				<div class="input-fiel col s4">
+					<input readonly="readonly" type="text" id="id" name="id" placeholder="Id: apenas para edicao" th:field="*{id}">
+				</div>
+				<div class="input-fiel col s4">
+					<input required="required" type="date" id="dataNascimento" name="dataNascimento" th:field="*{dataNascimento}">
+				</div>
+				<div class="input-fiel col s4">
+					<input readonly="readonly" required="required" type="number" id="idade" name="idade" placeholder="Idade" th:field="*{idade}">
+				</div>
+			</div>
+			<div class="row" style="color: #fff;">
+				<div class="input-fiel col s6">
+					<input required="required" type="email" id="email" name="email" placeholder="E-Mail (somente gmail)" th:field="*{email}" maxlength="60">
+				</div>
+				<div class="input-fiel col s6">	
+					<!-- carregando direto pelo front -->
+					<select required="required" class="browser-default" id="sexo" name="sexo" th:field="*{sexo}">
+						<option value="" disabled selected>[Selecione]</option>
+						<option value="MASCULINO" th:text="Masculino">
+						<option value="FEMININO" th:text="Feminino">
+						<option value="OUTRO" th:text="Outro">
+						<option value="GENERONULL" th:text="Prefiro-não-dizer">
+					</select>	
+				</div>
+			</div>
+			<div class="row" style="color: #fff;">
+				<div class="input-fiel col s6">
+					<input required="required" type="text" id="nome" name="nome" placeholder="Nome" th:field="*{nome}" maxlength="15">
+				</div>
+				<div class="input-fiel col s6">		
+					<input required="required" type="text" id="sobrenome" name="sobrenome" placeholder="Sobrenome" th:field="*{sobrenome}" maxlength="30">
+				</div>
+			</div>
+			<div class="row" style="color: #fff;">
+				<div class="input-fiel col s6">
+					<!-- carregando pelo banco de dados -->
+					<select required="required" class="browser-default" id="profissao" name="profissao" th:field="*{profissao}">
+						<option th:each="p : ${profissoes}" th:value="${p.id}" th:text="${p.nome}">
+					</select>
+				</div>
+				<div class="input-fiel col s6">
+					<!-- carregando por enum -->
+					<select required="required" class="browser-default" id="cargo" name="cargo" th:field="*{cargo}">
+						<!-- tenke carregar direto da classe value passa os enum e no text passa os enum no seu nome formatado -->
+						<option th:each="c : ${T(com.devthymeleaf.springbootmvcthymeleaf.model.enums.Cargo).values()}" th:value="${c}" th:text="${c.nome}">
+					</select>
+				</div>
+			</div>
+			<div class="row" style="color: #fff;">
+				<div class="input-fiel col s6">
+					<input required="required" type="text" id="cep" name="cep" placeholder="Cep" size="10" maxlength="9" th:field="*{cep}">
+				</div>
+				<div class="input-fiel col s6">		
+					<input required="required" type="text" id="rua" name="rua" placeholder="Rua" size="5" th:field="*{rua}">
+				</div>
+			</div>
+			<div class="row" style="color: #fff;">
+				<div class="input-fiel col s6">
+					<input required="required" type="text" id="bairro" name="bairro" placeholder="Bairro" size="40" th:field="*{bairro}">
+				</div>
+				<div class="input-fiel col s6">		
+					<input required="required" type="text" id="cidade" name="cidade" placeholder="Cidade" size="40" th:field="*{cidade}">
+				</div>
+			</div>
+			<div class="row" style="color: #fff;">
+				<div class="input-fiel col s6">
+					<input required="required" type="text" id="uf" name="uf" placeholder="Estado" size="2" th:field="*{uf}">
+				</div>
+				<div class="input-fiel col s6">		
+					<input required="required" type="text" id="ibge" name="ibge" placeholder="IBGE" size="8" th:field="*{ibge}">
+				</div>
+			</div>
+			<input type="submit" class="waves-effect waves-light btn" value="Enviar">
+			<button type="button" class="waves-effect waves-light btn" style="background-color: yellow;" 
+																					onclick="document.getElementById('FormSalvarPessoa').reset();">NOVO</button>
+		</form>
+	</div>
+	
+	
+	
+	<fieldset style="border: 3px solid #333A3A;">
+		<legend style="font-size: 25px; color: #22DFEE;">Campo de Pesquisa, Lista e Download Relátorio</legend>
+		<div class="row">
+			<form action="/admin/pesquisarpessoa" method="post">
+				<div id="divBusca">
+					<input type="text" id="nomepesquisa" name="nomepesquisa" th:value="${nomepesquisa}" placeholder="Pesquisar" style="color: #1200FF !important;">
+			
+					<input class="btnBusca" type="submit" value="🔍">
+				</div>
+			</form>
+			<a class="waves-effect btn" style="background-color: #04FF3F; margin: -60px 0 0 40px;" th:href="@{/admin/listaPessoas}">Listar Todos</a>
+			<a class="waves-effect btn" style="background-color: #F6A200; margin: -60px 0 0 0;" th:href="@{/admin/imprimirRelatorio}">Download log completo PDF 
+				<span style="font-size: 10px; text-transform: lowercase;">(pode demorar um pouco)</span></a>
+		</div>
+	</fieldset>
+	
+	
+	
+	<br><br>
+	<table>
+	  <thead style="font-size: 25px; font-family: 'Roboto';">
+	    <tr style="color: #fff; font-family: roboto">
+	      <td>Id</td>
+   	      <td>Nome</td>
+   	      <td>E-Mail</td>
+   	      <td>Cep</td>
+   	      <td>Editar</td>
+   	      <td>Deletar</td>
+   	      <td>Arquivo</td>
+   	      <td>Add Telefone</td>
+   	      <td>Add Imagem</td>
+   	    </tr>
+	  </thead>
+	  <tbody style="font-family: 'Noto Sans JP', sans-serif;">
+	    <tr th:each = "pessoa : ${pessoas.content}" style="border-bottom: 3px solid black; color: #3FEEEE;">
+		  <td th:text = "${pessoa.id}"></td>
+		  <td th:text = "${pessoa.nome}"></td>
+		  <td th:text = "${pessoa.email}"></td>
+		  <td th:text = "${pessoa.cep}"></td>
+		  <td><a th:href="@{/admin/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}" style="color: #EAFF00;">Editar</a></td>
+		  <td><a onclick="if (!confirm('deseja realmente deletar?')) return false" th:href="@{/admin/deletarpessoa/{idpessoa}(idpessoa=${pessoa.id})}" style="color: red; cursor: pointer;">Deletar</a></td>
+		  <td>
+		  	<a th:if="${pessoa.arquivo != null}" th:href="@{/admin/baixarArquivo/{idpessoa}(idpessoa=${pessoa.id})}" style="color: orange;">Download</a>
+		  	<a th:if="${pessoa.arquivo == null}">Sem Arquivo</a><!-- se nao tiver arquivo avisa -->
+		  </td>
+		  <td><a th:href = "@{/admin/telefones/{idpessoa}(idpessoa=${pessoa.id})}" style="color: blue;">Add Telefone</a></td>
+		  <td>
+		  	<img th:if="${pessoa.imagem != null}" width="50" height="50" th:src="${pessoa.imagem}"/>
+		  	<a th:if="${pessoa.imagem != null}" th:href = "@{/admin/imagem/{idpessoa}(idpessoa=${pessoa.id})}" style="color: #04FF3F;">Editar Imagem</a>
+		  	<img th:if="${pessoa.imagem == null}" width="50" height="50" src="http://barcarena.pa.gov.br/portal/img/perfil/padrao.jpg"/>
+		  	<a th:if="${pessoa.imagem == null}" th:href = "@{/admin/imagem/{idpessoa}(idpessoa=${pessoa.id})}" style="color: #04FF3F;">Adicionar Imagem</a>
+		  </td>
+	    </tr>
+	  </tbody>
+	</table>
+	
+	<div class="row" style="margin: 30px auto; text-align: center;">
+		<span th:if="${pessoas.hasPrevious()}">
+			<a th:href="@{/admin/pessoaspag(page=${pessoas.number-1}, size=${pessoas.size}, nomepesquisa=${nomepesquisa})}">Anterior</a>
+		</span>
+	
+		<th:block th:each="i : ${#numbers.sequence(0, pessoas.totalPages - 1)}">
+			<a th:href="@{/admin/pessoaspag(page=${i}, size=${pessoas.size}, nomepesquisa=${nomepesquisa})}">[[ ${i} + 1 ]]</a>
+		</th:block>
+		
+		<span th:if="${pessoas.hasNext()}">
+			<a th:href="@{/admin/pessoaspag(page=${pessoas.number+1}, size=${pessoas.size}, nomepesquisa=${nomepesquisa})}">Próximo</a>
+		</span>
+	</div>
+	
+	<div style="width: 100%; border: 1px solid black"></div><!-- apenas pra ter algo abaixo da paginacao pra ser possival puxar margin-bottom -->
+	
+	
+    <script id="materializescript" class="scriptmaterialize" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+<script>
+//faz o calendario aparecer e formatar a data corretamente e enviar pro back-end
+$(document).ready(function() {
+
+	$('#dataNascimento').datapicker({
+		showOthermonths:true,
+		format: 'yyyy-MM-dd'
+	});
+	
+});
+
+
+
+
+//web service cep
+$(document).ready(function() {
+	
+    function limpa_formulário_cep() {
+        // Limpa valores do formulário de cep.
+        $("#rua").val("");
+        $("#bairro").val("");
+        $("#cidade").val("");
+        $("#uf").val("");
+        $("#ibge").val("");
+    }
+    
+    //Quando o campo cep perde o foco.
+    $("#cep").blur(function() {
+
+        //Nova variável "cep" somente com dígitos.
+        var cep = $(this).val().replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                $("#rua").val("...");
+                $("#bairro").val("...");
+                $("#cidade").val("...");
+                $("#uf").val("...");
+                $("#ibge").val("...");
+
+                //Consulta o webservice viacep.com.br/
+                $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
+
+                    if (!("erro" in dados)) {
+                        //Atualiza os campos com os valores da consulta.
+                        $("#rua").val(dados.logradouro);
+                        $("#bairro").val(dados.bairro);
+                        $("#cidade").val(dados.localidade);
+                        $("#uf").val(dados.uf);
+                        $("#ibge").val(dados.ibge);
+                    } //end if.
+                    else {
+                        //CEP pesquisado não foi encontrado.
+                        limpa_formulário_cep();
+                        alert("CEP não encontrado.");
+                    }
+                });
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+    });
+});
+
+
+
+
+//pegao da data dada no calendario calcula e da um idade automaticamente
+document.getElementById("dataNascimento").addEventListener('change', function() {
+  var data = new Date(this.value);
+  if(isDate_(this.value) && data.getFullYear() > 1900)
+      document.getElementById("idade").value = calculateAge(this.value);
+});
+function calculateAge(dobString) {
+  var dob = new Date(dobString);
+  var currentDate = new Date();
+  var currentYear = currentDate.getFullYear();
+  var birthdayThisYear = new Date(currentYear, dob.getMonth(), dob.getDate());
+  var age = currentYear - dob.getFullYear();
+  if(birthdayThisYear > currentDate) {
+    age--;
+  }
+  return age;
+}
+function calcular(data) {
+  var data = document.form.nascimento.value;
+  alert(data);
+  var partes = data.split("/");
+  var junta = partes[2]+"-"+partes[1]+"-"+partes[0];
+  document.form.idade.value = (calculateAge(junta));
+}
+var isDate_ = function(input) {
+        var status = false;
+        if (!input || input.length <= 0) {
+          status = false;
+        } else {
+          var result = new Date(input);
+          if (result == 'Invalid Date') {
+            status = false;
+          } else {
+            status = true;
+          }
+        }
+        return status;
+}
+
+
+</script>
+</html>
