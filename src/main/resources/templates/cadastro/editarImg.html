@@ -32,7 +32,7 @@ body::-webkit-scrollbar-thumb{background-color: rgb(0, 255, 195)}
 	<form class="col-sm-8 img-upload-section" th:object="${pessoaobj}">
 		<input style="display: none;" name="id" id="id" type="text" th:field="*{id}" readonly="readonly"><!-- pra saber qual o id a ser editado -->
 		<input style="display: none;" name="imgVazio" id="imgVazio" type="text" th:field="*{imagem}" readonly="readonly"><!-- pra se nao selecionar new imagem ira carregar a ja existente -->
-	    <input style="display: none;" name="imgDefault" id="imgDefault" type="text" value="http://barcarena.pa.gov.br/portal/img/perfil/padrao.jpg" readonly="readonly"><!-- pra se nao selecionar new imagem e nao houver uma ja cadastrado mantera a padrao -->
+	    <input style="display: none;" name="imgDefault" id="imgDefault" type="text" value="https://pbs.twimg.com/profile_images/985608345741680640/dWSsB4Qb_400x400.jpg" readonly="readonly"><!-- pra se nao selecionar new imagem e nao houver uma ja cadastrado mantera a padrao -->
 	    <input name="imagem" type="file" accept="image/*" id="menu_images" /><br>
 	    <img width="200" height="200" id="menu_image" class="preview_img" th:src="*{imagem}"/><br>
 	    <button type="button" onclick="uploadFile();" style="width: 120px; height: 40px; font-size: 25px;">Submit</button>
@@ -63,7 +63,7 @@ function uploadFile() {
 				contentType : "application/json; charset=utf-8"
 			}).done(function(response) {
 				alert("Sucesso ao gravar nova imagem");
-				window.location.href = "/admin/cadastroPessoa";//recarrega apos gravar
+				window.location.href = "/admin/pessoas";//recarrega apos gravar
 			}).fail(function(xhr, status, errorThrown) {
 				alert("Error: " + xhr.responseText);
 			});
@@ -91,7 +91,7 @@ function uploadFile() {
 		        contentType : "application/json; charset=utf-8"
 		    }).done(function(response) {
 		    	alert("Nao gravado uma nova mas mantendo a padrao")
-		        window.location.href = "/admin/cadastroPessoa";//recarrega apos gravar
+		        window.location.href = "/admin/pessoas";//recarrega apos gravar
 		    }).fail(function(xhr, status, errorThrown) {
 		        alert("Error: " + xhr.responseText);
 		    });
@@ -105,7 +105,7 @@ function uploadFile() {
 		        contentType : "application/json; charset=utf-8"
 		    }).done(function(response) {
 		    	alert("nao gravado uma nova mas mantendo a ja gravada")
-		        window.location.href = "/admin/cadastroPessoa";//recarrega apos gravar
+		        window.location.href = "/admin/pessoas";//recarrega apos gravar
 		    }).fail(function(xhr, status, errorThrown) {
 		        alert("Error: " + xhr.responseText);
 		    });

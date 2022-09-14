@@ -28,13 +28,9 @@ public class Usuario implements UserDetails {
 	private String senha;
 	
 	@OneToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "usuarios_role", 
-			joinColumns = @JoinColumn(name = "usuario_id",
-					referencedColumnName = "id",
-					table = "usuario"),
-			inverseJoinColumns = @JoinColumn(name = "role_id",
-					referencedColumnName = "id",
-					table = "role"))//cria table de acesso de user
+	@JoinTable(name = "usuarios_role",
+			joinColumns = @JoinColumn(name = "usuario_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;//roles da separacao de acessos para cada user
 	
 	public Long getId() {

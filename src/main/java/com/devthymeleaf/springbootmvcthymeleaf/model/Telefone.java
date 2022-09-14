@@ -25,7 +25,7 @@ public class Telefone implements Serializable {
 	
 	@NotNull(message = "Numero não pode ser nulo")
 	@NotEmpty(message = "Numero não pode estar vazio")
-	@Pattern(regexp = "^(\\(11\\) [9][0-9]{4}-[0-9]{4})|(\\(1[2-9]\\) [5-9][0-9]{3}-[0-9]{4})|(\\([2-9][1-9]\\) [5-9][0-9]{3}-[0-9]{4})$", message = "numero nao valido")
+	@Pattern(regexp = "^(\\(11\\) [9][0-9]{4}-[0-9]{4})|(\\(1[2-9]\\) [5-9][0-9]{3}-[0-9]{4})|(\\([2-9][1-9]\\) [5-9][0-9]{3}-[0-9]{4})$", message = "numero nao valido")//(99) 9999-9999
 	private String numero;
 		
 	@ManyToOne//muitos users em um

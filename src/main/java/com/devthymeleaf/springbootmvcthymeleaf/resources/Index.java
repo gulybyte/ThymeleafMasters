@@ -1,4 +1,4 @@
-package com.devthymeleaf.springbootmvcthymeleaf.controller;
+package com.devthymeleaf.springbootmvcthymeleaf.resources;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,5 +10,5 @@ public class Index {
 	public String index(){
 		return "index";
 	}
-	
+
 }

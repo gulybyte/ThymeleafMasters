@@ -16,7 +16,5 @@ public interface ProfissaoRepository extends CrudRepository<Profissao, Long> {
 	//lista todos os usuarios ordenado por id
 	@Query(value = "select u from Profissao u ORDER BY u.id")
 	List<Profissao> listarAll();
-	
-	
-	
+
 }

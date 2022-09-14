@@ -69,7 +69,7 @@ public class Pessoa implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Cargo cargo;
 	
-	@ManyToOne/*muitas pessoa podem ter esta profission*/
+	@ManyToOne/*muitas pessoa podem ter esta profissao*/
 	private Profissao profissao;
 
 	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL)/*1 pra muitos, orphan e cascade para consultar tudo pra ser possivel fazer alteracoes
@@ -82,7 +82,8 @@ public class Pessoa implements Serializable {
 	private byte[] arquivo;
 	
 	private String nomeFileArquivo, tipoFileArquivo;
-	
+
+	//Salvo em BASE64
 	@Column(nullable = true, columnDefinition = "TEXT", length = 10000)
 	private String imagem;
 

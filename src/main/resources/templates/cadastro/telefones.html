@@ -47,12 +47,11 @@ body::-webkit-scrollbar-thumb{background-color: rgb(0, 255, 195)}
 
 	<h1 style="color: #fff; font-family: roboto">Telefones Pessoa</h1>
 	
-	<a style="text-decoration: underline; font-size: 45px" th:href="@{/admin/cadastroPessoa}">Cadastro Pessoa</a>
+	<a style="text-decoration: underline; font-size: 45px" th:href="@{/admin/pessoas}">Cadastro Pessoa</a>
 	
 	
 	 <div th:each="p : ${telefoneobj}">
 	     <div class="row" style="font-size: 30px; color: #fff; font-family: roboto;">
-	       <p class="col s3">ID: <span th:text="${p.id}">;</span></p>
 	       <p class="col s3">Nome: <span th:text="${p.nome}">;</span></p>
 	       <p class="col s3">E-Mail: <span th:text="${p.email}">;</span></p>
 	       <p class="col s3">Idade: <span th:text="${p.idade}">;</span></p>

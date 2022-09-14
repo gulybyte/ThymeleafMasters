@@ -8,7 +8,8 @@ public enum Cargo {
 	SENIOR("Senior"),
 	GERENTE("Gerente de Projetos"),
 	CHEFE("Chefe");
-	
+
+	//String dentro de cada Field do Enum
 	private String nome;
 	
 	private Cargo(String nome) {

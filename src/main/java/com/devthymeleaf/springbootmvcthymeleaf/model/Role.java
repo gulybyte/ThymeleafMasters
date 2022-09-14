@@ -22,7 +22,7 @@ public class Role implements GrantedAuthority {
 	private String nomeRole;
 	
 	@Override
-	public String getAuthority() {// ROLE_ADMIN, ROLE_GERENTE, ROLE_SECRETARIO
+	public String getAuthority() {// ROLE_ADMIN, ROLE_USER
 		return this.nomeRole;
 	}
 
