@@ -32,35 +32,3 @@
 <h2>Paginacao em lista das pessoas;</h2>
 <h2>Download de alguns dados de todas as pessoas em PDF por relatorio com jasper;</h2>
 
-<h1>DataBase:</h1>
-<h2>crie o banco com o nome spring-boot-thymeleaf e o usuario postgres</h2>
-<h2>DICA: não esqueca de no pom.xml colocar o driver de acordo com a versao do teu banco</h2>
-<h2>querys a seguir apos o primeiro start do sistema</h2>
--- deleta o unique do usuario role para poder depois cria-lo novamente e assim poder ter varios usuarios cadastrados em um role <br>
-ALTER TABLE usuarios_role DROP<br>
-  CONSTRAINT uk_krvk2qx218dxa3ogdyplk0wxw;<br><br>
-
--- para poder cadastrar varios users em um role <br>
-ALTER TABLE usuarios_role<br>
-  ADD CONSTRAINT uk_krvk2qx218dxa3ogdyplk0wxw UNIQUE(role_id, usuario_id);<br><br>
-
--- criando o role para acessos entre admin e user <br>
-INSERT INTO role(id, nome_role) VALUES (1, 'ROLE_ADMIN');<br>
-INSERT INTO role(id, nome_role) VALUES (2, 'ROLE_USER');<br><br>
-
--- inserindo dois usuarios bases para poder acessar o sistema admin(login: admin password: admin) e user(login: user passord: 123)<br>
-INSERT INTO usuario(id, login, senha) VALUES (1, 'admin', '$2a$10$XQ44XYOBateY8V.sHCgmhOqh8u6PxaUjKgRfIj2Xu1x9.yqHV9cty');<br>
-INSERT INTO usuario(id, login, senha) VALUES (2, 'user', '$2a$10$7/RXuG4fbbW1wffaYPnHLeKVtlTrY1gDUlhw2T8AMMyw5Ru4aT2GK');<br><br>
-
---inserindo algumas profissoes para serem selcionadas <br>
-INSERT INTO profissao(id, nome) VALUES (1, 'Programador Java');<br>
-INSERT INTO profissao(id, nome) VALUES (2, 'Programador PHP');<br>
-INSERT INTO profissao(id, nome) VALUES (3, 'Programador JavaScript');<br>
-INSERT INTO profissao(id, nome) VALUES (4, 'Programador Front-End');<br>
-INSERT INTO profissao(id, nome) VALUES (5, 'Programador C / C++');<br><br>
-
--- inserindo um usuario criado com admin e outro como user basico <br>
-INSERT INTO usuarios_role(usuario_id, role_id) VALUES (1, 1);<br>
-INSERT INTO usuarios_role(usuario_id, role_id) VALUES (2, 2);<br><br>
-
--- no application pode-se encontrar um main metodo que se executa te retorna-ra varias querys de pessoa para dar insert de uma vez, e uma query para delete destas querys tambem
