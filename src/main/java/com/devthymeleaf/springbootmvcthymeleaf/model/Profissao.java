@@ -12,10 +12,10 @@ public class Profissao implements Serializable {
 
 	@Id
 	private Long id;
-	
+
 	private String nome;
-	
-	
+
+
 	public Long getId() {
 		return id;
 	}
@@ -28,8 +28,8 @@ public class Profissao implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	
-	
-	
+
+
+
+
 }

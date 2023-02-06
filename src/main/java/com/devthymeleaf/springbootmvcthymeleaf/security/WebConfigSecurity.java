@@ -14,48 +14,33 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
-	
-	@Autowired
-	private ImplementacaoUserDetailsService implementacaoUserDetailsService;
-	
+
 	@Override // Configura as solicitações de acesso por Http
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf()
-		.disable()//Desativa as configurações padrão de memória.
-		.authorizeRequests()//Pertimir restringir acessos
-		.antMatchers(HttpMethod.GET, "/").permitAll()//Qualquer usuário acessa as paginas que nao estiverem em uma pasta
-		.antMatchers("admin",
-				"/admin", 			
-				"**/admin",			//nao e preciso
-				"admin/",			//especificar tao
-				"admin/**",			//bem, fiz apenas
-				"/admin/",			//para ter 100% de
-				"**/admin/",		//certeza
-				"/admin/**",
-				"**/admin/**")
-			.hasAnyRole("ADMIN")//Mapeia com /admin em todos os http que quer que apenas admin tenha acesso
-		.anyRequest().authenticated()
-		.and().formLogin().permitAll()//permite qualquer usuário
-		.loginPage("/login")//diz qual a pagina de login
-		.defaultSuccessUrl("/")//se passar pelo login entra aqui
-		.failureUrl("/login?error=true")//se falhar login vai pra pagina de login e passa o parametro de erro no login
-		.and().logout().logoutSuccessUrl("/login")//Mapeia URL de Logout e invalida usuário autenticado
-		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
-	
-	}
-	
-	
-	@Override // Cria autenticação do usuário com banco de dados ou em memória
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
-		auth.userDetailsService(implementacaoUserDetailsService)
-			.passwordEncoder(new BCryptPasswordEncoder());
+		http.csrf().disable()
+			.authorizeRequests()
+			.antMatchers("admin/**", "/admin/**") .hasAnyRole("ADMIN")
+
+			.anyRequest().authenticated()
+			.and().formLogin().permitAll()
+			.loginPage("/login")
+			.defaultSuccessUrl("/admin/pessoas")
+			.failureUrl("/login?error=true")
+			.and().logout().logoutSuccessUrl("/login")
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 
 	}
-	
-	@Override // Ignora URL especificas
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/static/**");//url padrao a ser ignorada
+
+
+	@Override // Cria autenticação do usuário com banco de dados ou em memória
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+		//unique user
+		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder())
+			.withUser("admin")
+			.password("$2a$10$XQ44XYOBateY8V.sHCgmhOqh8u6PxaUjKgRfIj2Xu1x9.yqHV9cty")
+			.roles("ADMIN");
+
 	}
 
 }

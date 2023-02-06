@@ -13,16 +13,14 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@EntityScan(basePackages = "com.devthymeleaf.springbootmvcthymeleaf.model")//diz para escanear tudo neste pacote como uma entidade de modelo
-@ComponentScan(basePackages =  "com.devthymeleaf.*")//mapeando todos os pacotes
+@EntityScan(basePackages = "com.devthymeleaf.springbootmvcthymeleaf.model")
+@ComponentScan(basePackages =  "com.devthymeleaf.*")
 @EnableJpaRepositories(basePackages = {"com.devthymeleaf.springbootmvcthymeleaf.repository"})
 @EnableTransactionManagement
 @EnableWebMvc
 public class Application implements WebMvcConfigurer {
 
 	public static void main(String[] args) throws Exception {
-
-		Generic.openSource();
 
 		SpringApplication.run(Application.class, args);
 

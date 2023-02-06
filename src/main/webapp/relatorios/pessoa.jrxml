@@ -29,9 +29,6 @@
 	<field name="cep" class="java.lang.String">
 		<fieldDescription><![CDATA[cep]]></fieldDescription>
 	</field>
-	<field name="idade" class="java.lang.Integer">
-		<fieldDescription><![CDATA[idade]]></fieldDescription>
-	</field>
 	<field name="uf" class="java.lang.String">
 		<fieldDescription><![CDATA[uf]]></fieldDescription>
 	</field>

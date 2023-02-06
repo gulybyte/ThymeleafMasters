@@ -36,7 +36,7 @@ body::-webkit-scrollbar-thumb{background-color: rgb(0, 255, 195)}
 .row> input{color: #3FEEEE !important;}
 </style>
 </head>
-<body sec:authorize="hasRole('ROLE_ADMIN')"><!-- CARREGA O BODY APENAS PRO ADMIN -->
+<body><!-- CARREGA O BODY APENAS PRO ADMIN -->
 
 	<!-- logout aqui -->
 	<a style="
@@ -53,8 +53,6 @@ body::-webkit-scrollbar-thumb{background-color: rgb(0, 255, 195)}
 	 <div th:each="p : ${telefoneobj}">
 	     <div class="row" style="font-size: 30px; color: #fff; font-family: roboto;">
 	       <p class="col s3">Nome: <span th:text="${p.nome}">;</span></p>
-	       <p class="col s3">E-Mail: <span th:text="${p.email}">;</span></p>
-	       <p class="col s3">Idade: <span th:text="${p.idade}">;</span></p>
 	     </div>
 	 </div>
 	

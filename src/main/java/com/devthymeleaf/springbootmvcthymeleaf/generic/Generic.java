@@ -11,15 +11,9 @@ public final class Generic {
 		Path arq = Paths.get("src/main/webapp/generic/"+file+".txt");
         Files.lines(arq).forEach(System.out::println);
 	}
-	
-	public static void openSource() throws Exception {
-		print("openSource", 0);
-	}
 
 	public static void coffee() throws Exception {
 		print("coffee", 180000);
 	}
 
-	
-	
 }
